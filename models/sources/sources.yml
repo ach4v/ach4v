@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw_etudiantbrut
+    schema: raw
+    tables:
+      - name: etudiants
+        description: Data sourcée depuis la database de OC nommée etudiants dans snowflake
+
+  - name: raw_population
+    schema: raw
+    tables:
+      - name: populationbrut
+        description: Data sourcée depuis le site data.gouv.fr nommée populationbrut dans snowflake
+
+
