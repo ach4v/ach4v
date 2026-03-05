@@ -2,13 +2,9 @@ version: 2
 
 models:
 
-  #################################################
-  # TABLE ETUDIANTS PROPRE
-  #################################################
-
   - name: stg_etudiants
     description: 
-      Vue nettoyée et standardisée de la table étudiants brute.
+      Vue nettoyée et standardisée de la table étudiants.
 
     columns:
 
@@ -23,12 +19,18 @@ models:
             
       - name: age_group
         description: Tranche d'âge de l'étudiant 
+        tests:
+          - not_null
 
       - name: gender
-        description: Genre (H, F, unknown)
-  
+        description: Genre (M, F, unknown)
+        tests:
+          - not_null
+
       - name: region
         description: Région associée à l'étudiant
+        tests:
+          - not_null
 
       - name: year_path_started
         description: Année de début du parcours
@@ -36,21 +38,26 @@ models:
           - not_null
 
 
-  #################################################
-  # TABLE POPULATION PROPRE
-  #################################################
-
   - name: stg_population2025
-    columns:
+    description: 
+      Vue nettoyée et standardisée de la table populationbrut.
+
+    columns: 
 
     - name: region
       description: Région standardisée
+      tests:
+          - not_null
 
     - name: gender
-      description: Genre (M, F)
+      description: Genre (H, F)
+      tests:
+          - not_null
 
     - name: age_group
-      description: Tranche d'âge standardisé 
+      description: Tranche d'âge par 5 
+      tests:
+          - not_null
 
     - name: population
       description: Population agrégée

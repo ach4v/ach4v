@@ -1,0 +1,174 @@
+version: 2
+
+models:
+
+
+  - name: int_etudiants
+    description: "Vue intermédiaire basée sur stg_etudiants avec standardisation des genre et filtre sur path_category_name = 'data'"
+
+    columns:
+      - name: user_id
+        description: "Identifiant unique de l'étudiant"
+        tests:
+          - not_null
+
+      - name: path_category_name
+        description: "Catégorie du parcours (filtrée sur 'data')"
+        tests:
+          - not_null
+
+      - name: age_group
+        description: "Tranche d'âge de l'étudiant"
+        tests:
+          - not_null
+
+      - name: gender
+        description: "Genre (M / F / Unknown)"
+        tests:
+          - not_null
+
+      - name: region
+        description: "Région de l'étudiant"
+        tests:
+          - not_null
+
+      - name: year_path_started
+        description: "Année de début du parcours"
+        tests:
+          - not_null
+
+  - name: int_population2025
+    description: "Agrégation de la population avec standardisation des régions et tranches d'âge"
+
+    columns:
+
+      - name: region
+        description: "Région transformée : normalisation des DROM et exclusion de la Corse"
+        tests:
+          - not_null
+
+      - name: gender
+        description: "Genre standardisé (M / F)"
+        tests:
+          - not_null
+
+      - name: age_group
+        description: "Tranche d'âge standardisée avec regroupement des catégories"
+        tests:
+          - not_null
+
+      - name: population
+        description: "Population agrégée par région, genre et tranche d'âge"
+        tests:
+          - not_null
+        
+  - name: int_evo_territoire_penetration
+    description: "Calcul du taux de pénétration des étudiants par région basé sur la population 2025 et les étudiants OC"
+
+    columns:
+
+      - name: year_path_started
+        description: "Année de début du parcours étudiant"
+        tests:
+          - not_null
+
+      - name: region
+        description: "Région de référence"
+        tests:
+          - not_null
+
+      - name: nb_students
+        description: "Nombre d'étudiants par année et région"
+        tests:
+          - not_null
+
+      - name: population_region
+        description: "Population totale de la région (référence 2025)"
+        tests:
+          - not_null
+
+      - name: students_per_100k
+        description: "Taux d'étudiants pour 100 000 habitants"
+
+      - name: penetration_level
+        description: "Classification stratégique du niveau de pénétration (Low / Medium / High)"
+  
+  - name: int_evo_gender_indicator
+    description: "Analyse de la représentativité des étudiants par genre avec comparaison à la population 2025 et les étudiants OC"
+
+    columns:
+
+      - name: year_path_started
+        description: "Année de début du parcours étudiant"
+        tests:
+          - not_null
+
+      - name: gender
+        description: "Genre (M / F)"
+        tests:
+          - not_null
+
+      - name: nb_students
+        description: "Nombre d'étudiants par année et genre"
+        tests:
+          - not_null
+
+      - name: population_gender
+        description: "Population totale par genre (référence 2025)"
+        tests:
+          - not_null
+
+      - name: pct_students
+        description: "Pourcentage des étudiants du genre dans l'année"
+        tests:
+          - not_null
+
+      - name: pct_population
+        description: "Pourcentage de la population du genre (référence 2025)"
+        tests:
+          - not_null
+
+      - name: representativity_index
+        description: "Indice comparant la proportion étudiants vs population"
+        tests:
+          - not_null
+
+  - name: int_evo_age_analysis
+    description: "Analyse de la représentativité des étudiants par tranche d'âge avec comparaison à la population 2025 et les étudiants OC"
+
+    columns:
+
+      - name: year_path_started
+        description: "Année de début du parcours étudiant"
+        tests:
+          - not_null
+
+      - name: age_group
+        description: "Tranche d'âge standardisée"
+        tests:
+          - not_null
+
+      - name: nb_students
+        description: "Nombre d'étudiants par année et tranche d'âge"
+        tests:
+          - not_null
+
+      - name: population_age
+        description: "Population totale par tranche d'âge (référence 2025)"
+        tests:
+          - not_null
+
+      - name: pct_students
+        description: "Pourcentage des étudiants dans la tranche d'âge pour une année donnée"
+        tests:
+          - not_null
+
+      - name: pct_population
+        description: "Pourcentage de la population dans la tranche d'âge (référence 2025)"
+        tests:
+          - not_null
+
+      - name: representativity_index
+        description: "Indice comparant la proportion étudiants vs population"
+        tests:
+          - not_null
