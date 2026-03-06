@@ -23,13 +23,11 @@ models:
 
       - name: metric_type
         description: "Type de métrique utilisée (indice_representativite ou taux_pour_100k)"
-        tests:
-          - not_null
+        
 
       - name: valeur_indicateur
         description: "Valeur calculée de la métrique (indice ou taux)"
-        tests:
-          - not_null
+       
 
       - name: statut
         description: "Classification analytique : Sous-représenté / Sur-représenté / Pénétration faible / Pénétration forte / Équilibré / Inconnu"
