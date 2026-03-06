@@ -1,65 +1,60 @@
 {{ config(materialized='table') }}
 
-with combined as (
+with combine as (
 
     select
-        'age' as indicator_type,
+        'âge' as type_indicateur,
         age_group as dimension,
-        year_path_started as year,
-        representativity_index as index_value
+        year_path_started as annee,
+        'indice_representativite' as type_metrque,
+        representativity_index as valeur_metrque
     from {{ ref('int_evo_age_analysis') }}
 
     union all
 
     select
-        'gender',
+        'genre',
         gender,
         year_path_started,
+        'indice_representativite',
         representativity_index
     from {{ ref('int_evo_gender_indicator') }}
 
     union all
 
     select
-        'territory',
+        'territoire',
         region,
         year_path_started,
+        'taux_pour_100k',
         students_per_100k
     from {{ ref('int_evo_territoire_penetration') }}
-
-),
-
--- ✅ On calcule les stats une seule fois
-stats as (
-
-    select
-        *,
-        avg(index_value) over (partition by indicator_type) as indicator_avg
-    from combined
 
 )
 
 select
-    indicator_type,
+    type_indicateur,
     dimension,
-    year,
-    index_value,
-    indicator_avg,
-    index_value - indicator_avg as gap_to_avg,
+    annee,
+    type_metrque,
+    valeur_metrque,
 
     case
-        when index_value is null then 'Unknown'
+        when valeur_metrque is null then 'Inconnu'
 
-        when indicator_type in ('age','gender')
-             and index_value < 0.8 then 'Underrepresented'
+        when type_indicateur in ('âge','genre')
+             and valeur_metrque < 0.8 then 'Sous-représenté'
 
-        when indicator_type in ('age','gender')
-             and index_value > 1.2 then 'Overrepresented'
+        when type_indicateur in ('âge','genre')
+             and valeur_metrque > 1.2 then 'Surreprésenté'
 
-        when indicator_type = 'territory'
-             and index_value < indicator_avg then 'Below Average'
+        when type_indicateur = 'territoire'
+             and valeur_metrque < 2 then 'Faible pénétration'
 
-        else 'Balanced'
-    end as status
+        when type_indicateur = 'territoire'
+             and valeur_metrque between 2 and 6 then 'Pénétration moyenne'
 
-from stats
+        else 'Pénétration forte'
+    end as statut
+
+from combine

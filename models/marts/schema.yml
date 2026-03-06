@@ -2,12 +2,12 @@ version: 2
 
 models:
   - name: mart_dashboard_evo
-    description: "Table consolidée des indicateurs de représentativité (âge, genre, territoire) avec analyse des écarts et classification"
+    description: "Table consolidée des indicateurs d'analyse (âge, genre, territoire) permettant d'évaluer la représentativité et la pénétration territoriale"
 
     columns:
 
-      - name: indicator_type
-        description: "Type d'indicateur (age, gender, territory)"
+      - name: type_indicateur
+        description: "Type d'indicateur analysé (age, genre, territoire)"
         tests:
           - not_null
 
@@ -16,27 +16,22 @@ models:
         tests:
           - not_null
 
-      - name: year
-        description: "Année de début du parcours"
+      - name: annee
+        description: "Année de début du parcours des étudiants"
         tests:
           - not_null
 
-      - name: index_value
-        description: "Valeur de l'indice de représentativité"
+      - name: metric_type
+        description: "Type de métrique utilisée (indice_representativite ou taux_pour_100k)"
         tests:
           - not_null
 
-      - name: indicator_avg
-        description: "Moyenne de l'indicateur calculée par type"
+      - name: valeur_indicateur
+        description: "Valeur calculée de la métrique (indice ou taux)"
         tests:
           - not_null
 
-      - name: gap_to_avg
-        description: "Écart entre la valeur de l'indice et la moyenne du type"
-        tests:
-          - not_null
-
-      - name: status
-        description: "Classification de l'indicateur : Underrepresented / Overrepresented / Balanced / Unknown"
+      - name: statut
+        description: "Classification analytique : Sous-représenté / Sur-représenté / Pénétration faible / Pénétration forte / Équilibré / Inconnu"
         tests:
           - not_null
